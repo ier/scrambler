@@ -42,18 +42,61 @@
     [:div.col-md-12
      [:img {:src "/img/warning_clojure.png"}]]]])
 
+(def scramble-result (r/atom nil))
+
+(defn handler
+  [response]
+  (if (true? response)
+    (reset! scramble-result "Scrable is OK!")
+    (reset! scramble-result "Scramble is not OK ;'(")))
+
+(defn error-handler [{:keys [status status-text]}]
+  (.log js/console (str "something bad happened: " status " " status-text)))
+
+(defn get-scramble
+  [s1 s2]
+  (GET "/api/scramble"
+    {:headers {"Accept" "application/transit+json"}
+     :params {:s1 s1 :s2 s2}
+     :handler handler
+     :error-handler error-handler}))
+
+(defn scramble
+  [e]
+  (.preventDefault e)
+  (let [s1 (.. e -target -elements -s1 -value)
+        s2 (.. e -target -elements -s2 -value)]
+    (get-scramble s1 s2)))
+
+
 (defn home-page []
   [:div.container
    [:div.row>div.col-sm-12
-      ;; TODO: add controls, ajax get to api, show response in succeded scenario, show warnings in pessimistic scenario
     [:h1.title "Scrambler"]
     [:div.content
-     [:p "TODO: add description"]]
+     [:p "TODO: add description"]
     [:p "TODO: add usage instructions"]
-    [:p "TODO: inform about tool." [:a {:href "/swagger-ui/index.html#!/v1/get_api_scramble"} "Swagger"]]
-    [:br]
+    [:p [:a {:href "/swagger-ui/index.html#!/v1/get_api_scramble"} "Swagger"] " can help to test API"]]
+
+    [:div
+     [:form
+      {:on-submit scramble}
+      [:label
+       "S1: "
+       [:input
+        {:name "s1"
+         :type "text"
+         :default-value "rekqodlw"}]
+       [:br]
+       "S2: "
+       [:input
+        {:name "s2"
+         :type "text"
+         :default-value "world"}]]
+      [:input {:type "submit" :value "Validate"}]]]
+
     [:div.result
-     [:p "Result:"]]]])
+     [:p.result @scramble-result]]]])
 
 (def pages
   {:home #'home-page
