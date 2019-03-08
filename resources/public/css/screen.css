@@ -7,3 +7,77 @@ nav {
     margin-bottom: 20px;
 }
 
+.navbar-dark .navbar-brand {
+    color: #c39a3f;
+}
+
+.bg-primary {
+    background-color: #252525 !important;
+}
+
+a {
+    color: #c39a3f;
+}
+a:hover {
+    color: #c39a3f;
+    text-decoration: none;
+}
+
+label {
+    float: left;
+    padding: .375rem .75rem;
+}
+
+.button {
+    font-weight: 400;
+    border-radius: 4px;
+    color: #c39a3f;
+    border: 2px solid #c39a3f;
+    background-color: transparent;
+    display: inline-block;
+    padding: 16px 32px;
+    text-decoration: none;
+    float: left;
+    margin-left: 48px;
+}
+.button:hover {
+    border: 2px solid #c39a3f;
+    background-color: #c39a3f;
+    color: #fff;
+    text-decoration: none;
+}
+
+.custom-control {
+    width: 300px;
+    display: block;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-top-color: rgb(206, 212, 218);
+    border-right-color: rgb(206, 212, 218);
+    border-bottom-color: rgb(206, 212, 218);
+    border-left-color: rgb(206, 212, 218);
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.result {
+    padding: 16px 32px;
+    margin-left: 180px;
+}
+
+.result:after {
+    content: ' ';
+    line-height: 0;
+    display: block;
+    clear: both;
+    *zoom: 1;       /* trigger hasLayout for IE 6/7*/
+  }
+
+.hint {
+    margin-left: 48px;
+}

@@ -29,12 +29,13 @@
     [b/Navbar {:light true
                :class-name "navbar-dark bg-primary"
                :expand "md"}
-     [b/NavbarBrand {:href "/"} "Scrambler"]
-     [b/NavbarToggler {:on-click #(swap! expanded? not)}]
-     [b/Collapse {:is-open @expanded? :navbar true}
-      [b/Nav {:class-name "mr-auto" :navbar true}
-       [nav-link "#/" "Home" :home]
-       [nav-link "#/about" "About" :about]]]]))
+     [:div.container
+      [b/NavbarBrand {:href "/"} "Scrambler"]
+      [b/NavbarToggler {:on-click #(swap! expanded? not)}]
+      [b/Collapse {:is-open @expanded? :navbar true}
+       [b/Nav {:class-name "mr-auto" :navbar true}
+        [nav-link "#/" "Home" :home]
+        [nav-link "#/about" "About" :about]]]]]))
 
 (defn about-page []
   [:div.container
@@ -47,7 +48,7 @@
 (defn handler
   [response]
   (if (true? response)
-    (reset! scramble-result "Scrable is OK!")
+    (reset! scramble-result "Scramble is OK!")
     (reset! scramble-result "Scramble is not OK ;'(")))
 
 (defn error-handler [{:keys [status status-text]}]
@@ -74,29 +75,29 @@
    [:div.row>div.col-sm-12
     [:h1.title "Scrambler"]
     [:div.content
-     [:p "TODO: add description"]
-    [:p "TODO: add usage instructions"]
-    [:p [:a {:href "/swagger-ui/index.html#!/v1/get_api_scramble"} "Swagger"] " can help to test API"]]
+     [:p "Validation returns true if a portion of s1 characters can be rearranged to match s2, otherwise returns false."]]
 
     [:div
      [:form
       {:on-submit scramble}
-      [:label
-       "S1: "
-       [:input
-        {:name "s1"
-         :type "text"
-         :default-value "rekqodlw"}]
-       [:br]
-       "S2: "
-       [:input
-        {:name "s2"
-         :type "text"
-         :default-value "world"}]]
-      [:input {:type "submit" :value "Validate"}]]]
-
-    [:div.result
-     [:p.result @scramble-result]]]])
+      [:label "S1: "]
+      [:input.custom-control
+       {:name "s1"
+        :type "text"
+        :default-value "rekqodlw"}]
+      [:br]
+      [:label "S2: "]
+      [:input.custom-control
+       {:name "s2"
+        :type "text"
+        :default-value "world"}]
+      [:br]
+      [:input.button {:type "submit" :value "Validate"}]
+      [:div.result
+       [:p @scramble-result]]]]
+    
+    [:div.hint
+     [:p "Btw: " [:a {:href "/swagger-ui/index.html#!/v1/get_api_scramble"} "Swagger"] " can help to test API"]]]])
 
 (def pages
   {:home #'home-page
