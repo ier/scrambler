@@ -11,10 +11,10 @@
                :data {:info {:version "1.0.0"
                              :title "Scrambler API"
                              :description "Scrambler services"}}}}
-    
+
     (context "/api" []
       :tags ["v1"]
-      
+
       (GET "/scramble" []
         :return       Boolean
         :query-params [s1 :- String, s2 :- String]

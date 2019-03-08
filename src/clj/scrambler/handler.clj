@@ -1,6 +1,7 @@
 (ns scrambler.handler
   (:require [scrambler.middleware :as middleware]
             [scrambler.routes.services :refer [service-routes]]
+            [scrambler.routes.home :refer [home-routes]]
             [compojure.core :refer [routes wrap-routes]]
             [ring.util.http-response :as response]
             [compojure.route :as route]
@@ -15,7 +16,10 @@
   :start
   (middleware/wrap-base
     (routes
-      #'service-routes
-      (route/not-found
-        "page not found"))))
+     (-> #'home-routes
+         (wrap-routes middleware/wrap-csrf)
+         (wrap-routes middleware/wrap-formats))
+     #'service-routes
+     (route/not-found
+      "page not found"))))
 
