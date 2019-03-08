@@ -84,20 +84,21 @@
       [:input.custom-control
        {:name "s1"
         :type "text"
-        :default-value "rekqodlw"}]
+        :autofocus ""
+        :placeholder "Only latin chars, e.g. 'rekqodlw'"}]
       [:br]
       [:label "S2: "]
       [:input.custom-control
        {:name "s2"
         :type "text"
-        :default-value "world"}]
+        :placeholder "Only latin chars, e.g. 'world'"}]
       [:br]
       [:input.button {:type "submit" :value "Validate"}]
       [:div.result
        [:p @scramble-result]]]]
     
     [:div.hint
-     [:p "Btw: " [:a {:href "/swagger-ui/index.html#!/v1/get_api_scramble"} "Swagger"] " can help to test API"]]]])
+     [:p [:i.fas.fa-info-circle] " Btw: " [:a {:href "/swagger-ui/index.html#!/v1/get_api_scramble"} "Swagger"] " can help to test API."]]]])
 
 (def pages
   {:home #'home-page
