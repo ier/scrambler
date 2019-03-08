@@ -45,6 +45,10 @@
 
 (def scramble-result (r/atom nil))
 
+(defn s-handler
+  [e]
+  (reset! scramble-result ""))
+
 (defn handler
   [response]
   (if (true? response)
@@ -69,7 +73,6 @@
         s2 (.. e -target -elements -s2 -value)]
     (get-scramble s1 s2)))
 
-
 (defn home-page []
   [:div.container
    [:div.row>div.col-sm-12
@@ -85,13 +88,16 @@
        {:name "s1"
         :type "text"
         :autofocus ""
-        :placeholder "Only latin chars, e.g. 'rekqodlw'"}]
+        :placeholder "Only latin chars, e.g. 'rekqodlw'"
+        :on-change s-handler
+        }]
       [:br]
       [:label "S2: "]
       [:input.custom-control
        {:name "s2"
         :type "text"
-        :placeholder "Only latin chars, e.g. 'world'"}]
+        :placeholder "Only latin chars, e.g. 'world'"
+        :on-change s-handler}]
       [:br]
       [:input.button {:type "submit" :value "Validate"}]
       [:div.result
