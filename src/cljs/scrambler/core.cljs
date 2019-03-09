@@ -114,7 +114,7 @@
         :required ""
         :placeholder "Only latin chars, e.g. 'rekqodlw'"
         :on-change s-validation-handler}]
-      [:p @s1-validation]
+      [:p.required @s1-validation]
       [:br]
       [:label "S2: "]
       [:input.custom-control
@@ -123,7 +123,7 @@
         :required ""
         :placeholder "Only latin chars, e.g. 'world'"
         :on-change s-validation-handler}]
-      [:p @s2-validation]
+      [:p.required @s2-validation]
       [:br]
       [:input.button {:type "submit" :value "Validate"}]
       [:div.result
