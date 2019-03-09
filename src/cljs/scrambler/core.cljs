@@ -44,8 +44,8 @@
      [:img {:src "/img/warning_clojure.png"}]]]])
 
 (def scramble-result (r/atom ""))
-(def s1-validation (r/atom "false"))
-(def s2-validation (r/atom "false"))
+(def s1-validation (r/atom "* required"))
+(def s2-validation (r/atom "* required"))
 
 (defn input-valid?
   "Valid if input is not empty"
@@ -60,11 +60,11 @@
           n (.. e -target -name)]
       (cond
         (= n "s1") (if (input-valid? v)
-                     (reset! s1-validation "true")
-                     (reset! s1-validation "false"))
+                     (reset! s1-validation "")
+                     (reset! s1-validation "* required"))
         (= n "s2") (if (input-valid? v)
-                     (reset! s2-validation "true")
-                     (reset! s2-validation "false"))))))
+                     (reset! s2-validation "")
+                     (reset! s2-validation "* required"))))))
 
 (defn handler
   [response]
@@ -88,8 +88,8 @@
   (.preventDefault e)
   (let [s1 (.. e -target -elements -s1 -value)
         s2 (.. e -target -elements -s2 -value)
-        s1-is-valid (input-valid? s1)
-        s2-is-valid (input-valid? s2)]
+        s1-is-valid (if (input-valid? s1) "" "* required")
+        s2-is-valid (if (input-valid? s2) "" "* required")]
     (if (and s1-is-valid s2-is-valid)
       (get-scramble s1 s2)
       (do
@@ -111,6 +111,7 @@
        {:name "s1"
         :type "text"
         :autofocus ""
+        :required ""
         :placeholder "Only latin chars, e.g. 'rekqodlw'"
         :on-change s-validation-handler}]
       [:p @s1-validation]
@@ -119,6 +120,7 @@
       [:input.custom-control
        {:name "s2"
         :type "text"
+        :required ""
         :placeholder "Only latin chars, e.g. 'world'"
         :on-change s-validation-handler}]
       [:p @s2-validation]
@@ -126,7 +128,7 @@
       [:input.button {:type "submit" :value "Validate"}]
       [:div.result
        [:p @scramble-result]]]]
-    
+
     [:div.hint
      [:p [:i.fas.fa-info-circle] " Btw: " [:a {:href "/swagger-ui/index.html#!/v1/get_api_scramble"} "Swagger"] " can help to test API."]]]])
 
