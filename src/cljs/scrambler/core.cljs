@@ -6,7 +6,8 @@
             [markdown.core :refer [md->html]]
             [scrambler.ajax :as ajax]
             [ajax.core :refer [GET POST]]
-            [secretary.core :as secretary :include-macros true])
+            [secretary.core :as secretary :include-macros true]
+            [scrambler.utils :as utils])
   (:import goog.History))
 
 (defonce session (r/atom {:page :home}))
@@ -43,6 +44,8 @@
     [:div.col-md-12
      [:img {:src "/img/warning_clojure.png"}]]]])
 
+(def s1-text (r/atom ""))
+(def s2-text (r/atom ""))
 (def scramble-result (r/atom ""))
 (def s1-validation (r/atom "* required"))
 (def s2-validation (r/atom "* required"))
@@ -54,15 +57,18 @@
 
 (defn s-validation-handler
   [e]
-  (do
+  (let [v (.. e -target -value)
+        n (.. e -target -name)]
     (reset! scramble-result "")
-    (let [v (.. e -target -value)
-          n (.. e -target -name)]
-      (cond
-        (= n "s1") (if (input-valid? v)
+    (cond
+      (= n "s1") (do
+                   (reset! s1-text (utils/sanitize v))
+                   (if (input-valid? v)
                      (reset! s1-validation "")
-                     (reset! s1-validation "* required"))
-        (= n "s2") (if (input-valid? v)
+                     (reset! s1-validation "* required")))
+      (= n "s2") (do
+                   (reset! s2-text (utils/sanitize v))
+                   (if (input-valid? v)
                      (reset! s2-validation "")
                      (reset! s2-validation "* required"))))))
 
@@ -88,20 +94,25 @@
   (.preventDefault e)
   (let [s1 (.. e -target -elements -s1 -value)
         s2 (.. e -target -elements -s2 -value)
-        s1-is-valid (if (input-valid? s1) "" "* required")
-        s2-is-valid (if (input-valid? s2) "" "* required")]
+        clear-s1 (utils/sanitize s1)
+        clear-s2 (utils/sanitize s2)
+        s1-is-valid (input-valid? clear-s1)
+        s2-is-valid (input-valid? clear-s2)
+        s1-is-valid-text (if s1-is-valid "" "* required")
+        s2-is-valid-text (if s2-is-valid "" "* required")]
     (if (and s1-is-valid s2-is-valid)
-      (get-scramble s1 s2)
       (do
-        (reset! s1-validation (str s1-is-valid))
-        (reset! s2-validation (str s2-is-valid))))))
+        (get-scramble clear-s1 clear-s2))
+      (do
+        (reset! s1-validation (str s1-is-valid-text))
+        (reset! s2-validation (str s2-is-valid-text))))))
 
 (defn home-page []
   [:div.container
    [:div.row>div.col-sm-12
     [:h1.title "Scrambler"]
     [:div.content
-     [:p "Validation returns true if a portion of s1 characters can be rearranged to match s2, otherwise returns false."]]
+     [:p "Validation returns true if a portion of s1 characters can be rearranged to match s2, otherwise returns false. Only latin characters are allowed."]]
 
     [:div
      [:form
@@ -110,8 +121,9 @@
       [:input.custom-control
        {:name "s1"
         :type "text"
-        :autofocus ""
+        :autoFocus ""
         :required ""
+        :value @s1-text
         :placeholder "Only latin chars, e.g. 'rekqodlw'"
         :on-change s-validation-handler}]
       [:p.required @s1-validation]
@@ -121,6 +133,7 @@
        {:name "s2"
         :type "text"
         :required ""
+        :value @s2-text
         :placeholder "Only latin chars, e.g. 'world'"
         :on-change s-validation-handler}]
       [:p.required @s2-validation]

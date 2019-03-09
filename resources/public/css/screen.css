@@ -37,7 +37,6 @@ label {
     display: inline-block;
     padding: 16px 32px;
     text-decoration: none;
-    float: left;
     margin-left: 48px;
 }
 .button:hover {
@@ -66,8 +65,12 @@ label {
 }
 
 .result {
-    padding: 16px 32px;
-    margin-left: 180px;
+    padding-top: 16px;
+    margin-left: 48px;
+}
+
+.result p {
+    font-weight: bold;
 }
 
 .result:after {
