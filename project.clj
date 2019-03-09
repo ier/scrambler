@@ -29,7 +29,6 @@
                  [org.webjars.bower/tether "1.4.4"]
                  [org.webjars/bootstrap "4.3.1"]
                  [org.webjars/font-awesome "5.7.2"]
-                 [org.webjars/jquery "3.3.1-1"]
                  [org.webjars/webjars-locator "0.36"]
                  [reagent "0.8.1"]
                  [ring-webjars "0.2.0"]

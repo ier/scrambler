@@ -1,6 +1,7 @@
 (ns scrambler.handler
   (:require [scrambler.middleware :as middleware]
             [scrambler.routes.services :refer [service-routes]]
+            [scrambler.layout :refer [error-page]]
             [scrambler.routes.home :refer [home-routes]]
             [compojure.core :refer [routes wrap-routes]]
             [ring.util.http-response :as response]
@@ -21,5 +22,7 @@
          (wrap-routes middleware/wrap-formats))
      #'service-routes
      (route/not-found
-      "page not found"))))
+      (:body
+          (error-page {:status 404
+                       :title "Page not found"}))))))
 
