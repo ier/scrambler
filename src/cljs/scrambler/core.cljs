@@ -43,11 +43,28 @@
     [:div.col-md-12
      [:img {:src "/img/warning_clojure.png"}]]]])
 
-(def scramble-result (r/atom nil))
+(def scramble-result (r/atom ""))
+(def s1-validation (r/atom "false"))
+(def s2-validation (r/atom "false"))
 
-(defn s-handler
+(defn input-valid?
+  "Valid if input is not empty"
+  [input]
+  (if (not-empty input) true false))
+
+(defn s-validation-handler
   [e]
-  (reset! scramble-result ""))
+  (do
+    (reset! scramble-result "")
+    (let [v (.. e -target -value)
+          n (.. e -target -name)]
+      (cond
+        (= n "s1") (if (input-valid? v)
+                     (reset! s1-validation "true")
+                     (reset! s1-validation "false"))
+        (= n "s2") (if (input-valid? v)
+                     (reset! s2-validation "true")
+                     (reset! s2-validation "false"))))))
 
 (defn handler
   [response]
@@ -70,8 +87,14 @@
   [e]
   (.preventDefault e)
   (let [s1 (.. e -target -elements -s1 -value)
-        s2 (.. e -target -elements -s2 -value)]
-    (get-scramble s1 s2)))
+        s2 (.. e -target -elements -s2 -value)
+        s1-is-valid (input-valid? s1)
+        s2-is-valid (input-valid? s2)]
+    (if (and s1-is-valid s2-is-valid)
+      (get-scramble s1 s2)
+      (do
+        (reset! s1-validation (str s1-is-valid))
+        (reset! s2-validation (str s2-is-valid))))))
 
 (defn home-page []
   [:div.container
@@ -89,15 +112,16 @@
         :type "text"
         :autofocus ""
         :placeholder "Only latin chars, e.g. 'rekqodlw'"
-        :on-change s-handler
-        }]
+        :on-change s-validation-handler}]
+      [:p @s1-validation]
       [:br]
       [:label "S2: "]
       [:input.custom-control
        {:name "s2"
         :type "text"
         :placeholder "Only latin chars, e.g. 'world'"
-        :on-change s-handler}]
+        :on-change s-validation-handler}]
+      [:p @s2-validation]
       [:br]
       [:input.button {:type "submit" :value "Validate"}]
       [:div.result
