@@ -92,10 +92,8 @@
 (defn scramble
   [e]
   (.preventDefault e)
-  (let [s1 (.. e -target -elements -s1 -value)
-        s2 (.. e -target -elements -s2 -value)
-        clear-s1 (utils/sanitize s1)
-        clear-s2 (utils/sanitize s2)
+  (let [clear-s1 (utils/sanitize @s1-text)
+        clear-s2 (utils/sanitize @s2-text)
         s1-is-valid (input-valid? clear-s1)
         s2-is-valid (input-valid? clear-s2)
         s1-is-valid-text (if s1-is-valid "" "* required")
@@ -176,15 +174,11 @@
 
 ;; -------------------------
 ;; Initialize app
-(defn fetch-docs! []
-  (GET "/docs" {:handler #(swap! session assoc :docs %)}))
-
 (defn mount-components []
   (r/render [#'navbar] (.getElementById js/document "navbar"))
   (r/render [#'page] (.getElementById js/document "app")))
 
 (defn init! []
   (ajax/load-interceptors!)
-  (fetch-docs!)
   (hook-browser-navigation!)
   (mount-components))
