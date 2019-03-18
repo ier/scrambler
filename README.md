@@ -50,6 +50,4 @@ It can be run as follows:
 
 Running application will be available at http://localhost:3000/ on your machine.
 
-Demo application is available at http://flexiana.erakhtin.ru
-
 ![scrambler](/scrambler.png)
