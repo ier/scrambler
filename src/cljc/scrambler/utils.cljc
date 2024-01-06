@@ -1,9 +1,10 @@
 (ns scrambler.utils
-  (:require [struct.core :as st]))
+  (:require
+   [clojure.string :as str]))
 
 (defn sanitize
   "Removes from string all characters excepting letters and casts the rest of string characters to lower case"
   [s]
   (-> s
-      (clojure.string/replace #"[^A-Za-z]" "")
-      (clojure.string/lower-case)))
+      (str/replace #"[^A-Za-z]" "")
+      (str/lower-case)))

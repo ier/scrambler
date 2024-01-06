@@ -1,7 +1,7 @@
 (defproject scrambler "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Scramble function, web service and UI in ClojureScript"
+  :url "http://localhost:3000/"
 
   :dependencies [[baking-soda "0.2.0" :exclusions [cljsjs/react-bootstrap]]
                  [cheshire "5.8.1"]

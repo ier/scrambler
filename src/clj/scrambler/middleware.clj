@@ -1,17 +1,18 @@
 (ns scrambler.middleware
-  (:require [scrambler.env :refer [defaults]]
-            [cheshire.generate :as cheshire]
-            [cognitect.transit :as transit]
-            [clojure.tools.logging :as log]
-            [scrambler.layout :refer [error-page]]
-            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
-            [ring.middleware.webjars :refer [wrap-webjars]]
-            [scrambler.middleware.formats :as formats]
-            [muuntaja.middleware :refer [wrap-format wrap-params]]
-            [scrambler.config :refer [env]]
-            [ring.middleware.flash :refer [wrap-flash]]
-            [immutant.web.middleware :refer [wrap-session]]
-            [ring.middleware.defaults :refer [site-defaults wrap-defaults]])
+  (:require
+   [scrambler.env :refer [defaults]]
+   [cheshire.generate :as cheshire]
+   [cognitect.transit :as transit]
+   [clojure.tools.logging :as log]
+   [scrambler.layout :refer [error-page]]
+   [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
+   [ring.middleware.webjars :refer [wrap-webjars]]
+   [scrambler.middleware.formats :as formats]
+   [muuntaja.middleware :refer [wrap-format wrap-params]]
+   [scrambler.config :refer [env]]
+   [ring.middleware.flash :refer [wrap-flash]]
+   [immutant.web.middleware :refer [wrap-session]]
+   [ring.middleware.defaults :refer [site-defaults wrap-defaults]])
   (:import))
 
 (defn wrap-internal-error [handler]
@@ -31,7 +32,6 @@
     (error-page
      {:status 403
       :title "Invalid anti-forgery token"})}))
-
 
 (defn wrap-formats [handler]
   (let [wrapped (-> handler wrap-params (wrap-format formats/instance))]

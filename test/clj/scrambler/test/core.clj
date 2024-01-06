@@ -1,6 +1,6 @@
 (ns scrambler.test.core
   (:require
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest is testing]]
    [scrambler.scramble :as scrmbl]
    [scrambler.utils :as utils]))
 
