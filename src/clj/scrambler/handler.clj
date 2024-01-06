@@ -1,13 +1,14 @@
 (ns scrambler.handler
-  (:require [scrambler.middleware :as middleware]
-            [scrambler.routes.services :refer [service-routes]]
-            [scrambler.layout :refer [error-page]]
-            [scrambler.routes.home :refer [home-routes]]
-            [compojure.core :refer [routes wrap-routes]]
-            [ring.util.http-response :as response]
-            [compojure.route :as route]
-            [scrambler.env :refer [defaults]]
-            [mount.core :as mount]))
+  (:require
+   [scrambler.middleware :as middleware]
+   [scrambler.routes.services :refer [service-routes]]
+   [scrambler.layout :refer [error-page]]
+   [scrambler.routes.home :refer [home-routes]]
+   [compojure.core :refer [routes wrap-routes]]
+   [ring.util.http-response :as response]
+   [compojure.route :as route]
+   [scrambler.env :refer [defaults]]
+   [mount.core :as mount]))
 
 (mount/defstate init-app
   :start ((or (:init defaults) identity))

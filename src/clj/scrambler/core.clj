@@ -1,11 +1,12 @@
 (ns scrambler.core
-  (:require [scrambler.handler :as handler]
-            [scrambler.nrepl :as nrepl]
-            [luminus.http-server :as http]
-            [scrambler.config :refer [env]]
-            [clojure.tools.cli :refer [parse-opts]]
-            [clojure.tools.logging :as log]
-            [mount.core :as mount])
+  (:require
+   [scrambler.handler :as handler]
+   [scrambler.nrepl :as nrepl]
+   [luminus.http-server :as http]
+   [scrambler.config :refer [env]]
+   [clojure.tools.cli :refer [parse-opts]]
+   [clojure.tools.logging :as log]
+   [mount.core :as mount])
   (:gen-class))
 
 (def cli-options

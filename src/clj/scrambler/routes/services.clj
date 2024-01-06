@@ -1,9 +1,10 @@
 (ns scrambler.routes.services
-  (:require [ring.util.http-response :refer :all]
-            [compojure.api.sweet :refer :all]
-            [schema.core :as s]
-            [scrambler.scramble :as scrmbl]
-            [scrambler.utils :as utils]))
+  (:require
+   [ring.util.http-response :refer :all]
+   [compojure.api.sweet :refer :all]
+   [schema.core :as s]
+   [scrambler.scramble :as scrmbl]
+   [scrambler.utils :as utils]))
 
 (defn try-scramble
   [s1 s2]
