@@ -12,8 +12,7 @@
   "Returns true if portion of s1 characters can be rearranged to match s2, otherwise returns false.
    Both parameters are mandatory. java.lang.AssertionError will be thrown in case of pre-check vialation."
   [s1 s2]
-  {:pre [(and (pos? (count (str/trim s1)))
-              (pos? (count (str/trim s2))))]}
+  {:pre [(and (not (str/blank? s1)) (not (str/blank? s2)))]}
   (let [frq1 (frequencies s1)
         frq2 (frequencies s2)
         occurrences (map #(custom-contains? frq1 %) frq2)]
